@@ -33,7 +33,7 @@
 
 - name: List installed Vagrant plugins
   become: True
-  shell: "su - {{ vagrant_plugins_user }} -c 'vagrant plugin list'"
+  shell: "vagrant plugin list"
   changed_when: False
   register: vagrant_initial_plugins_list
   when: "{{ vagrant_plugins_user != '' }}"
