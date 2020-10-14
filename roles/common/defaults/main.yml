@@ -15,6 +15,7 @@ virtualbox_repo_base_url: "https://download.virtualbox.org/virtualbox"
 vagrant_version: 2.2.10
 vagrant_deb_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
 vagrant_deb_sha_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_SHA256SUMS"
+vagrant_package_state: 'present'
 
 # Vagrant Plugins
 vagrant_plugins_user: "root"

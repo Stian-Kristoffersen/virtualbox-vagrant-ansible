@@ -33,18 +33,20 @@
 
 - name: List installed Vagrant plugins
   become: True
-  shell: "vagrant plugin list -c 'vagrant plugin list'"
+  shell: "su - {{ vagrant_plugins_user }} -c 'vagrant plugin list'"
   changed_when: False
   register: vagrant_initial_plugins_list
+  when: "{{ vagrant_plugins_user != '' }}"
   tags:
     - vagrant
     - install
 
 - name: Install Vagrant plugins
   become: True
-  shell: "vagrant plugin install -c 'vagrant plugin install {{ item.name }}'"
+  shell: "su - {{ vagrant_plugins_user }} -c 'vagrant plugin install {{ item.name }}'"
   with_items: "{{ vagrant_plugins }}"
   when:
+    - "{{ vagrant_plugins_user != '' }}"
     - "{{ item.state == 'present' }}"
     - "{{ item.name not in vagrant_initial_plugins_list.stdout }}"
   tags:
