@@ -1,4 +1,0 @@
----
-- import_tasks: virtualbox.yml
-- import_tasks: vagrant.yml
-
