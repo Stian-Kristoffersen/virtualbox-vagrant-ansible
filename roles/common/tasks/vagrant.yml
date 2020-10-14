@@ -33,10 +33,9 @@
 
 - name: List installed Vagrant plugins
   become: True
-  shell: "'vagrant plugin list'"
+  shell: "vagrant plugin list"
   changed_when: False
   register: vagrant_initial_plugins_list
-  when: "{{ vagrant_plugins_user != '' }}"
   tags:
     - vagrant
     - install
