@@ -42,7 +42,7 @@
 
 - name: Install Vagrant plugins
   become: True
-  shell: "vagrant plugin install {{ item.name }}'"
+  shell: "vagrant plugin install {{ item.name }}"
   with_items: "{{ vagrant_plugins }}"
   when:
     - "{{ item.state == 'present' }}"
