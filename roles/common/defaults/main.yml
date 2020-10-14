@@ -17,10 +17,15 @@ vagrant_deb_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/v
 vagrant_deb_sha_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_SHA256SUMS"
 vagrant_package_state: 'present'
 
-# Vagrant Plugins
+# VAGRANT PLUGINS
 vagrant_plugins_user: "root"
 vagrant_plugins:
   - name: 'reload'
     state: 'present'
   - name: 'vagrant-reload'
     state: 'present'
+
+# PACKER
+packer_version: "1.6.1"
+packer_arch: "amd64"
+packer_bin_path: /usr/local/bin
