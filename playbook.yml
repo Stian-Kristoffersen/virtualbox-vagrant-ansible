@@ -1,6 +1,6 @@
 ---
 - name: playbook
-  hosts: all
+  hosts: localhost
   become: yes
   become_user: root
   roles:
