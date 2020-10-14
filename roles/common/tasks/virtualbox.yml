@@ -33,6 +33,31 @@
     - build-essential
     - "virtualbox-{{ virtualbox_version }}"
 
+- name: Check if extension pack is already installed
+  shell: "VBoxManage list extpacks"
+  register: extpack_list
+
+- name: Output installed extpacks
+  debug:
+    var: download_result.stdtout
+
+- name: Download VirtualBox extension pack
+  get_url:
+    url: "{{ virtualbox_repo_base_url }}/{{ virtualbox_extpack_version }}/Oracle_VM_VirtualBox_Extension_Pack-{{ virtualbox_extpack_version }}.vbox-extpack"
+    dest: /tmp/
+    force: yes
+  register: download_result
+  when: 'extpack_list.stdout == "Extension Packs: 0"'
+
+- name: Output downloaded VirtualBox extension pack file name
+  debug:
+    var: download_result.dest
+    verbosity: 1
+
+- name: Install VirtualBox extension pack
+  shell: "echo 'y' | VBoxManage extpack install --replace {{ download_result.dest }}"
+  when: 'extpack_list.stdout == "Extension Packs: 0"'
+
 - name: VIRTUALBOX | add users to vb-group
   become: true
   user:
