@@ -3,4 +3,4 @@
 - import_tasks: vagrant.yml
 - import_tasks: packer.yml
 - import_tasks: vscode.yml
-
+- import_tasks: google-chrome.yml
