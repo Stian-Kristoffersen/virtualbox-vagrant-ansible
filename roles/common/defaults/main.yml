@@ -32,3 +32,7 @@ packer_bin_path: /usr/local/bin
 
 # VSCODE
 vscode_install: true
+
+# GOOGLE CHROME
+# defaults file for ansible-role-chrome
+chrome_package: google-chrome-stable
