@@ -1,0 +1,90 @@
+# Full-Disc-Encryption
+d-i partman-auto/method string crypto
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-auto-lvm/guided_size string max
+d-i partman-auto-lvm/new_vg_name string crypt
+d-i partman-auto/disk string /dev/nvme1n1 
+d-i partman-auto/choose_recipe select root-encrypted
+d-i partman-auto/expert_recipe string                         \
+      root-encrypted ::                                       \
+              500 500 500 ext3                                \
+                      $primary{ } $bootable{ }                \
+                      method{ format } format{ }              \
+                      use_filesystem{ } filesystem{ ext4 }    \
+                      mountpoint{ /boot }                     \
+              .                                               \
+              256 256 256 fat32                               \
+                      $primary{ } 			                  \
+                      method{ efi } format{ } 				  \
+                      mountpoint{ /boot/efi }                 \
+              .                                               \
+              500 10000 1000000000 ext4                       \
+                      $lvmok{ } lv_name{ root }               \
+                      in_vg { crypt }                         \
+                      $primary{ }                             \
+                      method{ format } format{ }              \
+                      use_filesystem{ } filesystem{ ext4 }    \
+                      mountpoint{ / }                         \
+              .                                               \
+
+d-i partman-md/device_remove_md boolean true
+d-i partman-basicfilesystems/no_mount_point boolean false
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+d-i partman/early_command 									  \
+    string sed -i.bak 's/-f $id\/skip_erase/-d $id/g' 		  \
+	/lib/partman/lib/crypto-base.sh
+
+# Localization
+d-i debian-installer/locale string en_US.UTF-8
+d-i localechooser/supported-locales multiselect en_US.UTF-8
+
+# Keyboard
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/xkb-keymap select no
+
+# Network
+d-i netcfg/get_hostname string {insert hostname}
+d-i netcfg/get_domain string local
+d-i netcfg/choose_interface select auto
+
+# Clock
+d-i clock-setup/utc-auto boolean true
+d-i clock-setup/utc boolean true
+d-i time/zone string Europe/Oslo
+d-i clock-setup/ntp boolean true
+
+# Packages, Mirrors, Image
+d-i mirror/country string NO
+d-i apt-setup/multiverse boolean true
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+
+# Upgrade packages
+d-i pkgsel/upgrade select full-upgrade
+d-i pkgsel/update-policy select none
+
+# Users
+d-i passwd/user-fullname string noname
+d-i passwd/username string noname
+d-i passwd/user-password-crypted password {insert hash}
+d-i passwd/user-default-groups string adm audio cdrom dip lpadmin sudo plugdev sambashare video
+d-i passwd/root-login boolean true
+d-i passwd/root-password-crypted password {insert hash}
+d-i user-setup/allow-password-weak boolean true
+
+# Post setup
+ubiquity ubiquity/success_command string \
+  in-target rm -rf /var/lib/apt/lists ; \
+  in-target apt-get update ; \
+  in-target apt-get install -y git ansible
+
+# Grub
+d-i grub-installer/grub2_instead_of_grub_legacy boolean true
+d-i grub-installer/only_debian boolean true
+d-i finish-install/reboot_in_progress note
+
