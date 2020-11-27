@@ -5,14 +5,14 @@ virtualbox_apt_key_url_old: https://www.virtualbox.org/download/oracle_vbox.asc
 virtualbox_apt_repo_url: http://download.virtualbox.org/virtualbox/debian
 virtualbox_users: []
 
-virtualbox_extpack_version: "{{ virtualbox_version}}.14"
+virtualbox_extpack_version: "{{ virtualbox_version}}.16"
 virtualbox_php_version: "{{ virtualbox_version}}-0"
 
 # Should not need changing:
 virtualbox_repo_base_url: "https://download.virtualbox.org/virtualbox"
 
 # VAGRANT
-vagrant_version: 2.2.10
+vagrant_version: 2.2.14
 vagrant_deb_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb"
 vagrant_deb_sha_url: "https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_SHA256SUMS"
 vagrant_package_state: 'present'
@@ -26,7 +26,7 @@ vagrant_plugins:
     state: 'present'
 
 # PACKER
-packer_version: "1.6.1"
+packer_version: "1.6.5"
 packer_arch: "amd64"
 packer_bin_path: /usr/local/bin
 
